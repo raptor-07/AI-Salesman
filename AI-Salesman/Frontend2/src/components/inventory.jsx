@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import "./Inventory.css";
 import InventoryItem from "./inventoryItem";
 
@@ -7,22 +7,25 @@ function Inventory() {
   const [items, setItems] = useState([
     {
       id: 1,
-      title: "Item 1",
-      category: "Category 1",
-      price: "100",
-      lowTarget: "90",
-      highTarget: "110",
-      description: "This is a description for Item 1",
+      title: "RealMe 8 Pro",
+      category: "Mobile",
+      price: "17999",
+      lowTarget: "16000",
+      highTarget: "20000",
+      description:
+        "Realme 8 Pro is the new smartphone to enter the Realme family, and you can buy it at a starting price of Rs 17,999 in different color options namely Infinite Blue, Infinite Black, and Illuminating Yellow. The smartphone comes with attractive designs and features that will make your phone using experience a satisfactory one. In addition to this, the mobile weighs approximately 176 grams and measures 160.6 mm x 73.9 mm x 8.1 mm (height x width x thickness) that will give you a slip-free grip.",
     },
     {
       id: 2,
-      title: "Item 2",
-      category: "Category 2",
-      price: "200",
-      lowTarget: "180",
-      highTarget: "220",
-      description: "This is a description for Item 2",
-    },])  
+      title: "Smiley Soft Ball",
+      category: "Toys",
+      price: "100",
+      lowTarget: "80",
+      highTarget: "200",
+      description:
+        "Graphene Smiley Soft Ball for Kids and Adults, a Stress Relief Toy, Non Toxic Toy for Kids and Adults",
+    },
+  ]);
   const [product, setProduct] = useState({
     title: "",
     category: "",
@@ -71,7 +74,7 @@ function Inventory() {
   };
 
   const handleBuyerClick = () => {
-    navigate('/buyer', { state: { items } });
+    navigate("/buyer", { state: { items } });
   };
 
   return (
@@ -82,10 +85,10 @@ function Inventory() {
           Add Product
         </button>
         <div className="buyer-button-container">
-  <button className="buyer-button" onClick={handleBuyerClick}>
-    Buyer
-  </button>
-</div>
+          <button className="buyer-button" onClick={handleBuyerClick}>
+            Buyer
+          </button>
+        </div>
         {showProductForm && (
           <div className="input-fields">
             <div className="input-field">
@@ -163,8 +166,7 @@ function Inventory() {
                 setProduct(item);
                 setEditProduct(item);
                 setShowProductForm(true);
-              }}
-            >
+              }}>
               Edit
             </button>
             <button className="chat-button">Chat</button>
