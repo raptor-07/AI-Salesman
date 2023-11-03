@@ -3,8 +3,28 @@
   "name": "talk gpt",
   "version": "1.0.0",
   "action": {
-    "default_popup": "index.html"
+    "default_title": "Click Me",   
+    "default_popup": "popup.html"  
   },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.example.com/*"],
+      "css": ["my-styles.css"],
+      "js": ["content-script.js"],
+      "exclude_matches": ["*://*/*foo*"],
+      "include_globs": ["*example.com/???s/*"],
+      "exclude_globs": ["*bar*"],     
+      "all_frames": false,
+      "match_origin_as_fallback": false,
+      "match_about_blank": false,
+      "run_at": "document_idle",
+      "world": "ISOLATED"
+    }
+  ],
   "permissions": ["scripting"],
   "host_permissions": ["http://*/*", "https://*/*"]
 }
