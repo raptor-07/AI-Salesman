@@ -1,9 +1,28 @@
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import "./Inventory.css";
 import InventoryItem from "./inventoryItem";
 
 function Inventory() {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState([
+    {
+      id: 1,
+      title: "Item 1",
+      category: "Category 1",
+      price: "100",
+      lowTarget: "90",
+      highTarget: "110",
+      description: "This is a description for Item 1",
+    },
+    {
+      id: 2,
+      title: "Item 2",
+      category: "Category 2",
+      price: "200",
+      lowTarget: "180",
+      highTarget: "220",
+      description: "This is a description for Item 2",
+    },])  
   const [product, setProduct] = useState({
     title: "",
     category: "",
@@ -14,6 +33,7 @@ function Inventory() {
   });
   const [editProduct, setEditProduct] = useState(null);
   const [showProductForm, setShowProductForm] = useState(false);
+  const navigate = useNavigate();
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -50,6 +70,10 @@ function Inventory() {
     setShowProductForm(false);
   };
 
+  const handleBuyerClick = () => {
+    navigate('/buyer', { state: { items } });
+  };
+
   return (
     <div className="inventory-container">
       <div className="card">
@@ -57,6 +81,11 @@ function Inventory() {
         <button className="add-button" onClick={() => setShowProductForm(true)}>
           Add Product
         </button>
+        <div className="buyer-button-container">
+  <button className="buyer-button" onClick={handleBuyerClick}>
+    Buyer
+  </button>
+</div>
         {showProductForm && (
           <div className="input-fields">
             <div className="input-field">
@@ -138,6 +167,7 @@ function Inventory() {
             >
               Edit
             </button>
+            <button className="chat-button">Chat</button>
           </div>
         ))}
       </div>

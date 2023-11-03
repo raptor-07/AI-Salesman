@@ -1,0 +1,34 @@
+.item-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .inventory-item-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 350px;
+    padding: 20px;
+    flex: 0 0 calc(33.333% - 20px);
+    box-sizing: border-box;
+  }
+  
+  .chat-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    display: block;
+    margin-top: 10px;
+  }
+  
+  .chat-button:hover {
+    background-color: #0056b3;
+  }
+
+  
