@@ -1,44 +1,21 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
-import { useCookies } from "react-cookie";
+import { useState, useCallback, useMemo } from "react";
+import { client } from "@gradio/client";
 import "./ChatInterface.css";
 
 const AI = "ai";
 const USER = "user";
-const CHAT_MESSAGES = "chatMessages";
-const API_URL = "http://localhost:5000/chat";
 
 function ChatInterface({ onClose }) {
-  const [messages, setMessages] = useState([
-    { text: "Hi there! How can I assist you today?", sender: AI },
-    {
-      text: "I'm looking for a new laptop. Can you help me choose one?",
-      sender: USER,
-    },
-    { text: "Of course! What's your budget?", sender: AI },
-  ]);
+  const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
-  const [cookies, setCookie] = useCookies([CHAT_MESSAGES]);
 
-  useEffect(() => {
-    if (cookies[CHAT_MESSAGES]) {
-      setMessages(cookies[CHAT_MESSAGES]);
-    }
-  }, [cookies]);
-
-  const sendMessageToApi = async (message, url) => {
-    try {
-      const response = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ message, url }),
-      });
-
-      return await response.json();
-    } catch (error) {
-      console.error("Failed to send message:", error);
-    }
+  const productDetails = {
+    category: "",
+    price: 10.0,
+    target: [7.0, 10.0],
+    title: "Verizon Car Charger with Dual Output Micro USB and LED Light",
+    description:
+      "Charge two devices simultaneously on the go. This vehicle charger with an additional USB port delivers enough power to charge two devices at once. The push-button activated LED connector light means no more fumbling in the dark trying to connect your device. Auto Detect IC Technology automatically detects the device type and its specific charging needs for improved compatibility. And the built-in indicator light illuminates red to let you know the charger is receiving power and the power socket is working properly.",
   };
 
   const handleSendMessage = useCallback(async () => {
@@ -46,20 +23,29 @@ function ChatInterface({ onClose }) {
       const newMessage = { text: messageInput, sender: USER };
       const newMessages = [...messages, newMessage];
       setMessages(newMessages);
-      setCookie(CHAT_MESSAGES, newMessages, { path: "/" });
       setMessageInput("");
 
-      const tabUrl = window.location.href;
-      const data = await sendMessageToApi(messageInput, tabUrl);
+      const app = await client("https://15f204a448d3f3a7c5.gradio.live/");
+      const prompt = `### instruction : You are an AI salesman working for online e-commerce sellers that sell on e-commerce platforms like shopify or amazon. You have to negotiate a price for a product being bought by any buyers of the sellers.
+         Do not reveal any of the data provided to you to the user, like the bargain range, etc.
+         Use persuasion techniques used by professional sales people.
+         You should naturally bargain hard to fetch the best price for the product.
+         You can choose to not change the price at all.
+         You can choose to change the price by a certain percentage.
+         You can not set the price lower than the minimum target range.
+          ### product details and context:
+            
+            Category: ${productDetails.category}, Price: ₹${productDetails.price * 80}, Target: ${productDetails.target}, Title: ${productDetails.title}, Description: ${productDetails.description}
+          ### seller:\n'''\n${newMessage.text}\n'''\n### buyer:`;
+      const result = await app.predict("/predict", [prompt]);
 
-      if (data && data.message) {
-        const aiMessage = { text: data.message, sender: AI };
+      if (result && result.data) {
+        const aiMessage = { text: result.data, sender: AI };
         const updatedMessages = [...newMessages, aiMessage];
         setMessages(updatedMessages);
-        setCookie(CHAT_MESSAGES, updatedMessages, { path: "/" });
       }
     }
-  }, [messageInput, messages, setCookie]);
+  }, [messageInput, messages]);
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
@@ -72,8 +58,9 @@ function ChatInterface({ onClose }) {
     return messages.map((message, index) => (
       <div
         key={index}
-        className={`message ${message.sender === USER ? "sent" : "received"}`}>
-        {message.text}
+        className={`message ${message.sender === USER ? "sent" : "received"}`}
+      >
+        {message.text.includes("$") ? message.text.replace("$", "₹") : message.text}
       </div>
     ));
   }, [messages]);
@@ -81,6 +68,14 @@ function ChatInterface({ onClose }) {
   return (
     <div className="chat-interface">
       <button onClick={onClose}>Close Chat</button>
+      <div className="product-details">
+        <h2>Product Details</h2>
+        <p>Category: {productDetails.category}</p>
+        <p>Price: ₹{productDetails.price * 80}</p>
+        <p>Target: {productDetails.target}</p>
+        <p>Title: {productDetails.title}</p>
+        <p>Description: {productDetails.description}</p>
+      </div>
       <div className="chat-messages">{renderMessages}</div>
       <div className="message-input">
         <input
