@@ -1,6 +1,6 @@
-import './InventoryItem.css';
+import "./InventoryItem.css";
 
-function InventoryItem({ item }) {
+function InventoryItem({ item, showTargets = true }) {
   return (
     <div className="inventory-item-card">
       <div className="item-details">
@@ -9,10 +9,12 @@ function InventoryItem({ item }) {
         <div className="item-price">
           <span className="label">Price:</span> ₹ {item.price}
         </div>
-        <div className="item-targets">
-          <span className="label">Low Target:</span> ₹ {item.lowTarget}
-          <span className="label">  High Target:</span> ₹ {item.highTarget}
-        </div>
+        {showTargets && (
+          <div className="item-targets">
+            <span className="label">Low Target:</span> ₹ {item.lowTarget}
+            <span className="label"> High Target:</span> ₹ {item.highTarget}
+          </div>
+        )}
         <p className="item-description">
           <span className="label">Description:</span> {item.description}
         </p>

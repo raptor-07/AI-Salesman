@@ -7,6 +7,16 @@ function Inventory() {
   const [items, setItems] = useState([
     {
       id: 1,
+      title: "Verizon Car Charger with Dual Output Micro USB and LED Light",
+      category: "Car Accessories",
+      price: "700",
+      lowTarget: "600",
+      highTarget: "800",
+      description:
+        "Charge two devices simultaneously on the go. This vehicle charger with an additional USB port delivers enough power to charge two devices at once. The push-button activated LED connector light means no more fumbling in the dark trying to connect your device. Auto Detect IC Technology automatically detects the device type and its specific charging needs for improved compatibility. And the built-in indicator light illuminates red to let you know the charger is receiving power and the power socket is working properly.",
+    },
+    {
+      id: 2,
       title: "RealMe 8 Pro",
       category: "Mobile",
       price: "17999",
@@ -16,7 +26,7 @@ function Inventory() {
         "Realme 8 Pro is the new smartphone to enter the Realme family, and you can buy it at a starting price of Rs 17,999 in different color options namely Infinite Blue, Infinite Black, and Illuminating Yellow. The smartphone comes with attractive designs and features that will make your phone using experience a satisfactory one. In addition to this, the mobile weighs approximately 176 grams and measures 160.6 mm x 73.9 mm x 8.1 mm (height x width x thickness) that will give you a slip-free grip.",
     },
     {
-      id: 2,
+      id: 3,
       title: "Smiley Soft Ball",
       category: "Toys",
       price: "100",

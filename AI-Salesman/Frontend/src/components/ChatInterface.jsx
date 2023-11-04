@@ -25,7 +25,7 @@ function ChatInterface({ onClose }) {
       setMessages(newMessages);
       setMessageInput("");
 
-      const app = await client("https://15f204a448d3f3a7c5.gradio.live/");
+      const app = await client("https://1201ad761cda6681aa.gradio.live/");
       const prompt = `### instruction : You are an AI salesman working for online e-commerce sellers that sell on e-commerce platforms like shopify or amazon. You have to negotiate a price for a product being bought by any buyers of the sellers.
          Do not reveal any of the data provided to you to the user, like the bargain range, etc.
          Use persuasion techniques used by professional sales people.
@@ -35,7 +35,11 @@ function ChatInterface({ onClose }) {
          You can not set the price lower than the minimum target range.
           ### product details and context:
             
-            Category: ${productDetails.category}, Price: ₹${productDetails.price * 80}, Target: ${productDetails.target}, Title: ${productDetails.title}, Description: ${productDetails.description}
+            Category: ${productDetails.category}, Price: ₹${
+        productDetails.price * 80
+      }, Target: ${productDetails.target}, Title: ${
+        productDetails.title
+      }, Description: ${productDetails.description}
           ### seller:\n'''\n${newMessage.text}\n'''\n### buyer:`;
       const result = await app.predict("/predict", [prompt]);
 
@@ -58,9 +62,10 @@ function ChatInterface({ onClose }) {
     return messages.map((message, index) => (
       <div
         key={index}
-        className={`message ${message.sender === USER ? "sent" : "received"}`}
-      >
-        {message.text.includes("$") ? message.text.replace("$", "₹") : message.text}
+        className={`message ${message.sender === USER ? "sent" : "received"}`}>
+        {message.text.includes("$")
+          ? message.text.replace("$", "₹")
+          : message.text}
       </div>
     ));
   }, [messages]);
